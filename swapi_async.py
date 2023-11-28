@@ -100,7 +100,7 @@ async def insert_to_db(people_json_list):
                                     'films': films_list,
                                     'gender': people.get('gender'),
                                     'hair_color': people.get('hair_color'),
-                                     'height': people.get('height'),
+                                    'height': people.get('height'),
                                     'homeworld': people.get('homeworld'),
                                     'mass': people.get('mass'),
                                     'skin_color': people.get('skin_color'),
@@ -120,7 +120,7 @@ async def main():
         await con.run_sync(Base.metadata.create_all)
 
     # Все запросы группируются в партии по MAX_CHUNK_SIZE
-    for ids_chunk in chunked(range(1, 3), MAX_CHUNK_SIZE):
+    for ids_chunk in chunked(range(1, 10), MAX_CHUNK_SIZE):
         get_people_coros = [get_people(people_id) for people_id in ids_chunk] # создание списка для хранения корутин
         people_json_list = await asyncio.gather(*get_people_coros) # формирование списка
         asyncio.create_task(insert_to_db(people_json_list)) # создание задачи на вставку данных в БД
